@@ -1,0 +1,55 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Bienvenidos a ASP.NET Core";
+    var estudiante = "Estudiante";
+    var mensajeMotivador = "¡Estás dando un gran paso hacia tu futuro como desarrollador web!";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
+        }
+        .motivador {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        .frase {
+            color: #2980b9;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .boton {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .boton:hover {
+            background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Hola, @estudiante! </h1>
+    <div class="motivador">
+        @mensajeMotivador
+    </div>
+    <div class="frase">
+        "Todo gran programador alguna vez fue un principiante. ¡No te detengas!"
+    </div>
+    <button class="boton" onclick="alert('¡Sigue aprendiendo ASP.NET Core!')">Haz clic para motivarte</button>
+</body>
+</html>

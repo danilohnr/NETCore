@@ -75,5 +75,33 @@ namespace TiendaOnline.Controllers
             //Si todo está bien, redireccionamos al usuario a la lista de productos
             return RedirectToAction("Index", "ControladorProductos");
         }
+        //Vamos a agregar la acción para Editar producto cuando se presiona el botón Editar
+        //Se va a requerir el Id del producto, el Id se agregará a la URL
+        public IActionResult Edit(int id)
+        {
+            //Primero se busca el producto a través de su Id
+            //Si no se encuentra, el resultado devuelto es null
+            var producto = context.Productos.Find(id);
+            if (producto == null)
+            {   //Si no se encuentra, redireccionamos al usuario a la lista de productos
+                return RedirectToAction("Index","ControladorProductos");
+            }
+            //Si hallamos el producto, vamos a crear un objeto ProductoDto con los datos de producto
+            var productoDto = new ProductoDto() //ProductoDto productoDto = new ProductoDto()
+            {
+                Nombre = producto.Nombre,
+                Marca = producto.Marca,
+                Categoria= producto.Categoria,
+                Precio = producto.Precio,
+                Descripcion = producto.Descripcion,
+            };
+            //Debido a ProductoDto no contiene el Id, por lo que vamos a agregar el Id a un diccionario
+            //llamado ViewData() para poder mostrarlo en la vista Edit
+            ViewData["Id"] = producto.Id;
+            ViewData["NombreArchivoImagen"] = producto.NombreArchivoImagen;
+            ViewData["CreadoEn"] = producto.CreadoEn.ToString("dd/MM/yyyy");
+            //Ahora debemos proveer la vista para este objeto
+            return View(productoDto);
+        }
     }
 }

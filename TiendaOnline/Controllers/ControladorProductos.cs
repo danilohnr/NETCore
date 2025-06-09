@@ -23,7 +23,8 @@ namespace TiendaOnline.Controllers
             this.environment = environment;
         }
         //Vamos a utilizar un indice de página para conocer la página solicitada de la lista
-        public IActionResult Index(int indicePagina)
+        //Vamos a agregar a la acción Index el parámetro busqueda de tipo string, el cual puede ser null
+        public IActionResult Index(int indicePagina, string? busqueda)
         {   //Una vez creado el constructor ControladorProductos y el campo context
             //podemos usar context para leer los productos de la base de datos
             //* Va ser necesario separar la sentencia en la que se guarda la variable productos
@@ -31,6 +32,11 @@ namespace TiendaOnline.Controllers
             //1. Vamos a crear una variable de tipo IQueryable de productos llamada consulta = context.Productos
             IQueryable<Producto> consulta = context.Productos;
             //2.Ahora actualicemos la consulta para que ordene la lista de manera descendente por Id
+            //Aquí vamos a implementar la funcionalidad de búsqueda
+            if (busqueda != null)   //Revisar si existe alguna búsqueda
+            {//Actualizamos la consulta y solo mostraremos productos o marcas que coincidan con la búsqueda
+                consulta = consulta.Where(p => p.Nombre.Contains(busqueda) || p.Marca.Contains(busqueda));
+            }
             consulta = consulta.OrderByDescending(p => p.Id);
             //Funcionalidad de la paginación
             //1. Primero revisar si el índice es válido
@@ -56,6 +62,10 @@ namespace TiendaOnline.Controllers
             //Lo hacemos usando el diccionario ViewData
             ViewData["cantidadPaginas"] = cantidadPaginas;
             ViewData["indicePagina"] = indicePagina;
+            //Vamos a pasar el valor del parámetro busqueda a la vista
+            //Si busqueda no es null, se guardará en la clave busqueda del diccionario
+            //Si es null se guardará como una cadena vacía ""
+            ViewData["busqueda"] = busqueda ?? "";
             return View(productos);
         }
         //Vamos a agregar la acción para Crear producto nuevo

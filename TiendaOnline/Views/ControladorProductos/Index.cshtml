@@ -2,6 +2,7 @@
 @{
 	int indicePagina = (int)ViewData["indicePagina"]!;<!--El signo ! al final es para evitar la advertencia del tipo de dato-->
 	int cantidadPaginas = (int)ViewData["cantidadPaginas"]!;
+	string busqueda = (string)ViewData["busqueda"]!;
 }
 
 <h2 class="text-center mb-5">Lista de productos</h2>
@@ -11,9 +12,11 @@
 		<a class="button btn-primary" asp-controller="ControladorProductos" asp-action="Create">Nuevo Producto</a>
 	</div>
 	<div class="col">
-
+		<form class="d-flex" role="search">
+			<input class="form-control me-2" type="search" name="busqueda" value="@busqueda" placeholder="Buscar por Producto o Marca" aria-label="Search">
+			<button class="btn btn-outline-success" type="submit">Buscar</button>
+		</form>
 	</div>
-
 </div>
 
 <table class="table">
@@ -58,7 +61,7 @@
 			string activa = "";
 			<!--Para indicar el atributo active-->
 			if (i == indicePagina) activa = "active";
-			<li class="page-item @activa"><a class="page-link" asp-route-indicePagina="@i">@i</a></li>
+			<li class="page-item @activa"><a class="page-link" asp-route-indicePagina="@i" asp-route-busqueda="@busqueda">@i</a></li>
 		}
 	</ul>
 </nav>

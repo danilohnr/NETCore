@@ -1,5 +1,7 @@
 ﻿@model List<Producto>
 @{
+	int indicePagina = (int)ViewData["indicePagina"]!;<!--El signo ! al final es para evitar la advertencia del tipo de dato-->
+	int cantidadPaginas = (int)ViewData["cantidadPaginas"]!;
 }
 
 <h2 class="text-center mb-5">Lista de productos</h2>
@@ -39,12 +41,25 @@
 				<td><img src="~/productos/@producto.NombreArchivoImagen" width="100"></td>
 				<td>@producto.CreadoEn.ToString("dd/MM/yyyy")</td>
 				<td style="white-space: nowrap;">
-					<a class="btn btn-primary btn-sm" asp-controller="ControladorProductos" asp-action="Edit" asp-route-id="@producto.Id">Editar</a>
-					<a class="btn btn-danger btn-sm" asp-controller="ControladorProductos" asp-action="Delete" asp-route-id="@producto.Id">Eliminar</a>
+					<a class="btn btn-primary btn-sm" asp-controller="ControladorProductos" asp-action="Edit" 
+					asp-route-id="@producto.Id">Editar</a>
+					<a class="btn btn-danger btn-sm" asp-controller="ControladorProductos" asp-action="Delete" 
+					asp-route-id="@producto.Id" onclick="return confirm('¿Está seguro?')">Eliminar</a>
 				</td>
 			</tr>
 		}
 	</tbody>
-
 </table>
+
+<nav>
+	<ul class="pagination">
+		@for (int i = 1; i <= cantidadPaginas; i++)
+		{
+			string activa = "";
+			<!--Para indicar el atributo active-->
+			if (i == indicePagina) activa = "active";
+			<li class="page-item @activa"><a class="page-link" asp-route-indicePagina="@i">@i</a></li>
+		}
+	</ul>
+</nav>
 
